@@ -50,7 +50,7 @@ def simulate_2024_season():
     
     # Convert to DataFrame and save results
     season_df = pd.DataFrame(season_results)
-    season_df.to_csv('data/2024/simulated_results2024.csv', index=False)
+    season_df.to_csv('data/2024/simulated_results2024RF.csv', index=False)
     
     # Print season summary
     print("\n2024 Season Simulation Summary")
