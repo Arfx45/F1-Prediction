@@ -4,6 +4,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.preprocessing import LabelEncoder
+import joblib
+import os
 
 # Load the necessary data
 results_df = pd.read_csv('data/results.csv')
@@ -12,8 +14,9 @@ drivers_df = pd.read_csv('data/drivers.csv')
 circuits_df = pd.read_csv('data/circuits.csv')
 driver_elo_df = pd.read_csv('data/driver_elo.csv')
 
-# Filter out 2024 data
+# Filter to include 2023 but exclude 2024
 races_df = races_df[races_df['year'] < 2024]
+print(f"Training on data from years: {races_df['year'].unique()}")
 results_df = results_df.merge(races_df[['raceId', 'year', 'circuitId']], on='raceId')
 
 def create_features(row, driver_elo_df, circuits_df):
@@ -63,12 +66,20 @@ rf_model.fit(X_train, y_train)
 # Make predictions
 y_pred = rf_model.predict(X_test)
 
-# Print model performance
-print("Random Forest Model Performance")
-print("==============================")
+# Print model performance with updated date range
+print("\nRandom Forest Model Performance (Including 2023)")
+print("=============================================")
 print("Model Accuracy:", accuracy_score(y_test, y_pred))
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred))
+
+# Save the model with appropriate name
+if not os.path.exists('__pycache__'):
+    os.makedirs('__pycache__')
+    
+model_path = os.path.join('__pycache__', 'randforestF12024.joblib')
+joblib.dump(rf_model, model_path)
+print(f"\nModel saved to: {model_path}")
 
 # Feature importance
 feature_importance = pd.DataFrame({
