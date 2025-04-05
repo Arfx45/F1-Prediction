@@ -4,9 +4,8 @@ Need TO add because of the project desc
     Circuit characteristics
     Historical trends
 
-Models Need to add:
-
-    Neural Network (Deep Learning)
+Models Need to add: 
+    <!-- Neural Network (Deep Learning) -->
     XGBoost (Boosting)
-    Support Vector Machine (SVM)
-    Logistic Regression (Linear)
+    <!-- Support Vector Machine (SVM) -->
+    <!-- Logistic Regression (Linear) -->

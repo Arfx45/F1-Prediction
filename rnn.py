@@ -4,7 +4,9 @@ import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_splitF
+import os
+import joblib
 
 # Load datasets
 results_df = pd.read_csv('data/results.csv')
@@ -13,8 +15,9 @@ drivers_df = pd.read_csv('data/drivers.csv')
 circuits_df = pd.read_csv('data/circuits.csv')
 driver_elo_df = pd.read_csv('data/driver_elo.csv')
 
-# Merge and filter data for recent seasons
-races_df = races_df[races_df['year'].between(2018, 2023)]
+# Merge and filter data for recent seasons (excluding 2024)
+races_df = races_df[races_df['year'] < 2024]
+print(f"Training on data from years: {races_df['year'].unique()}")
 results_df = results_df.merge(races_df[['raceId', 'year', 'circuitId']], on='raceId')
 results_df = results_df.merge(drivers_df[['driverId', 'forename', 'surname']], on='driverId')
 
@@ -67,13 +70,39 @@ model = Sequential([
 
 # Compile & train model
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-model.fit(X_train, y_train, epochs=20, batch_size=16, validation_data=(X_test, y_test))
+history = model.fit(X_train, y_train, 
+                   epochs=20, 
+                   batch_size=16, 
+                   validation_data=(X_test, y_test),
+                   verbose=1)
 
 # Evaluate model
 test_loss, test_acc = model.evaluate(X_test, y_test)
-print(f"Model Accuracy: {test_acc:.4f}")
+print("\nRNN Model Performance (Including 2023)")
+print("=====================================")
+print(f"Test Accuracy: {test_acc:.4f}")
+print(f"Test Loss: {test_loss:.4f}")
 
-# Save model
-model.save('rnn_model.keras')
+# Save model and scaler
+if not os.path.exists('__pycache__'):
+    os.makedirs('__pycache__')
+
+# Save the model
+model_path = os.path.join('__pycache__', 'rnnF12024.keras')
+model.save(model_path)
+
+# Save the scaler
+scaler_path = os.path.join('__pycache__', 'rnn_scaler.joblib')
+joblib.dump(scaler, scaler_path)
+
+print(f"\nModel saved to: {model_path}")
+print(f"Scaler saved to: {scaler_path}")
+
+# Print training history summary
+print("\nTraining History:")
+print("================")
+for metric in history.history.keys():
+    final_value = history.history[metric][-1]
+    print(f"{metric}: {final_value:.4f}")
 
 

@@ -89,9 +89,13 @@ feature_importance = pd.DataFrame({
 print("\nFeature Importance:")
 print(feature_importance.sort_values('importance', ascending=False))
 
-def predict_race_winner(grid_positions, driver_names, circuit_id):
+def predict_race_winner(grid_positions, driver_names, circuit_id, qualifying_times=None):
     race_data = []
-    for driver, grid in zip(driver_names, grid_positions):
+    
+    # Load results data for qualifying reference
+    results_df = pd.read_csv('data/results.csv')
+    
+    for i, (driver, grid) in enumerate(zip(driver_names, grid_positions)):
         # Get driver Elo rating with fallback to mean
         driver_elo = driver_elo_df[driver_elo_df['Driver Name'] == driver]['Elo Rating']
         elo_rating = driver_elo.values[0] if not driver_elo.empty else driver_elo_df['Elo Rating'].mean()
@@ -99,29 +103,57 @@ def predict_race_winner(grid_positions, driver_names, circuit_id):
         # Get circuit altitude
         circuit_alt = circuits_df[circuits_df['circuitId'] == circuit_id]['alt'].values[0]
         
+        # Get driver's qualifying time from results data
+        driver_id = drivers_df[
+            (drivers_df['forename'] + ' ' + drivers_df['surname']) == driver
+        ]['driverId'].values[0]
+        
+        # Get qualifying time from results where grid position matches
+        qualifying_result = results_df[
+            (results_df['driverId'] == driver_id) & 
+            (results_df['grid'] == grid) &
+            (results_df['circuitId'] == circuit_id)
+        ]['milliseconds'].min()
+        
+        # Use qualifying result if available, otherwise use provided time or 0
+        q_time = qualifying_result if pd.notna(qualifying_result) else (
+            qualifying_times[i] if qualifying_times is not None else 0
+        )
+        
         race_data.append({
             'driver_elo': elo_rating,
             'grid_position': grid,
             'circuit_altitude': circuit_alt,
-            'qualifying_time': 0  # You can add qualifying time if available
+            'qualifying_time': q_time
         })
     
+    # Convert to DataFrame
     race_df = pd.DataFrame(race_data)
-    predictions = rf_model.predict_proba(race_df)
-    win_probabilities = predictions[:, 1]
     
-    # Create results dataframe
+    # Make predictions
+    win_probabilities = rf_model.predict_proba(race_df)[:, 1]
+    
+    # Create results DataFrame
     results = pd.DataFrame({
         'Driver': driver_names,
+        'Grid': grid_positions,
         'Win Probability': win_probabilities
-    })
-    return results.sort_values('Win Probability', ascending=False)
+    }).sort_values('Win Probability', ascending=False)
+    
+    return results
 
 # Example usage
 if __name__ == "__main__":
     sample_drivers = ['Max Verstappen', 'Lewis Hamilton', 'Charles Leclerc']
     sample_grid = [1, 2, 3]
     circuit_id = 1  # Example circuit ID
-    predictions = predict_race_winner(sample_grid, sample_drivers, circuit_id)
-    print("\nPredicted Race Winner Probabilities:")
+    
+    predictions = predict_race_winner(
+        grid_positions=sample_grid,
+        driver_names=sample_drivers,
+        circuit_id=circuit_id
+    )
+    
+    print("\nPredicted Race Results:")
+    print("=====================")
     print(predictions)
