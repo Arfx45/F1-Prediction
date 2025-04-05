@@ -4,6 +4,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
+import joblib
 
 # Load datasets
 results_df = pd.read_csv('data/results.csv')
@@ -64,5 +65,5 @@ print("\nClassification Report:")
 print(classification_report(y_test, y_pred_log))
 
 # Save model
-import joblib
+
 joblib.dump(log_model, 'logistic_model.pkl')
