@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import accuracy_score
 import joblib
-import tensorflow as tf
 from datetime import datetime
 import os
 
@@ -34,100 +33,126 @@ def load_all_models():
         print(f"Error loading models: {e}")
         raise
 
-def visualize_model_accuracy():
-    """Create visualization comparing all model accuracies"""
-    # Load 2024 data
+def calculate_points(position):
+    """Calculate F1 points based on finishing position"""
+    points_system = {
+        '1': 25, '2': 18, '3': 15, '4': 12, '5': 10,
+        '6': 8, '7': 6, '8': 4, '9': 2, '10': 1
+    }
+    return points_system.get(str(position), 0)
+
+def visualize_model_comparisons():
+    """Create visualizations comparing all model predictions with actual 2024 results"""
+    
+    # Load actual 2024 results
     results_2024 = pd.read_csv('data/2024/results2024.csv')
     races_2024 = pd.read_csv('data/2024/races2024.csv')
+    drivers_df = pd.read_csv('data/drivers.csv')
     
-    # Store accuracies
-    accuracies = {}
+    # Calculate actual standings and points
+    actual_results = results_2024.merge(drivers_df[['driverId', 'forename', 'surname']], on='driverId')
+    actual_results['Driver'] = actual_results['forename'] + ' ' + actual_results['surname']
+    actual_results['Points'] = actual_results['position'].apply(calculate_points)
+    actual_standings = actual_results.groupby('Driver')['Points'].sum().sort_values(ascending=False)
     
-    # Calculate accuracy for each model's predictions
+    # Load only base model predictions with correct paths
     prediction_files = {
-        'Random Forest': 'predicted_results2024RF.csv',
-        'Random Forest FS': 'predicted_results2024RF_FS.csv',
-        'XGBoost': 'predicted_results2024XGB.csv',
-        'XGBoost FS': 'predicted_results2024XGB_FS.csv',
-        'SVM': 'predicted_results2024SVM.csv',
-        'SVM FS': 'predicted_results2024SVM_FS.csv',
-        'Logistic': 'predicted_results2024Logistic.csv',
-        'Logistic FS': 'predicted_results2024Logistic_FS.csv',
-        'RNN': 'predicted_results2024RNN.csv',
-        'RNN FS': 'predicted_results2024RNN_FS.csv'
+        'Random Forest': 'data/predicted_models/predicted_results2024RF.csv',
+        'XGBoost': 'data/predicted_models/predicted_results2024XGB.csv',
+        'SVM': 'data/predicted_models/predicted_results2024SVM.csv',
+        'Logistic': 'data/predicted_models/predicted_results2024Logistic.csv',
+        'RNN': 'data/predicted_models/predicted_results2024RNN.csv'
     }
     
-    # Check which predictions exist
-    available_models = {}
-    for model_name, pred_file in prediction_files.items():
-        filepath = f'data/2024/{pred_file}'
-        if os.path.exists(filepath):
-            try:
-                pred_df = pd.read_csv(filepath)
-                accuracies[model_name] = pred_df['prediction_correct'].mean()
-                available_models[model_name] = pred_file
-            except Exception as e:
-                print(f"Error loading {model_name} predictions: {e}")
+    # Store accuracies and predictions
+    accuracies = {}
+    standings_mae = {}
     
-    if not accuracies:
-        print("No prediction files found. Please run model simulations first.")
-        return
+    # Create comparison visualizations
+    plt.figure(figsize=(20, 15))
     
-    # Create visualization
-    plt.figure(figsize=(15, 8))
-    colors = sns.color_palette('husl', n_colors=len(accuracies))
+    # 1. Race Winner Prediction Accuracy
+    plt.subplot(2, 2, 1)
+    models = []
+    accs = []
     
-    # Create grouped bar plot for available models
-    base_models = [k for k in accuracies.keys() if 'FS' not in k]
-    fs_models = [k for k in accuracies.keys() if 'FS' in k]
+    for model, pred_file in prediction_files.items():
+        try:
+            pred_df = pd.read_csv(pred_file)
+            
+            # Handle cases where prediction_correct column doesn't exist
+            if 'prediction_correct' not in pred_df.columns:
+                # Calculate prediction_correct by comparing predicted_winner with actual_winner
+                pred_df['prediction_correct'] = pred_df['predicted_winner'] == pred_df['actual_winner']
+            
+            acc = pred_df['prediction_correct'].mean()
+            accuracies[model] = acc
+            models.append(model)
+            accs.append(acc)
+        except Exception as e:
+            print(f"Skipping {model} - Could not process predictions: {str(e)}")
+            continue
     
-    x = np.arange(len(base_models))
-    width = 0.35
-    
-    plt.bar(x - width/2, [accuracies[m] for m in base_models], width, label='Base Model', color=colors[:len(base_models)])
-    plt.bar(x + width/2, [accuracies[m] for m in fs_models], width, label='Feature Selection', color=colors[len(base_models):])
-    
-    plt.xlabel('Model Type')
+    # Plot bar chart
+    bars = plt.bar(range(len(models)), accs, color=plt.cm.Set3(np.linspace(0, 1, len(models))))
+    plt.title('Race Winner Prediction Accuracy by Model')
+    plt.xlabel('Model')
     plt.ylabel('Accuracy')
-    plt.title('Model Performance Comparison (2024 Season)')
-    plt.xticks(x, [m.split()[0] for m in base_models], rotation=45)
-    plt.legend()
+    plt.xticks(range(len(models)), models, rotation=45)
     
     # Add value labels
-    for i in x:
-        if base_models[i] in accuracies:
-            plt.text(i - width/2, accuracies[base_models[i]], f'{accuracies[base_models[i]]:.2%}', 
-                    ha='center', va='bottom')
-        if fs_models[i] in accuracies:
-            plt.text(i + width/2, accuracies[fs_models[i]], f'{accuracies[fs_models[i]]:.2%}', 
-                    ha='center', va='bottom')
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2., height,
+                f'{height:.2%}', ha='center', va='bottom')
     
+    # 2. Driver Standings Comparison
+    plt.subplot(2, 2, 2)
+    top_10_actual = actual_standings.head(10)
+    plt.plot(range(len(top_10_actual)), top_10_actual.values, 'k-', label='Actual', linewidth=2)
+    
+    colors = plt.cm.Set2(np.linspace(0, 1, len(models)))
+    for model, color in zip(models, colors):
+        try:
+            pred_df = pd.read_csv(prediction_files[model])
+            pred_standings = pred_df.groupby('predicted_winner')['win_probability'].count().sort_values(ascending=False)
+            plt.plot(range(len(pred_standings.head(10))), pred_standings.head(10).values, '--', 
+                    label=model, color=color, alpha=0.7)
+            
+            standings_mae[model] = np.mean(np.abs(
+                pred_standings.head(10).values - top_10_actual.head(10).values
+            ))
+        except Exception:
+            continue
+    
+    plt.title('Top 10 Drivers Points/Wins Comparison')
+    plt.xlabel('Driver Ranking')
+    plt.ylabel('Points/Predicted Wins')
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.grid(True, alpha=0.3)
+    
+    # Save visualization
     plt.tight_layout()
-    
-    # Create output directory if it doesn't exist
     os.makedirs('model_comparison', exist_ok=True)
-    plt.savefig('model_comparison/accuracy_comparison.png')
+    plt.savefig('model_comparison/model_comparison_2024.png', bbox_inches='tight', dpi=300)
     plt.close()
     
-    # Print summary
-    print("\nModel Accuracies:")
-    print("================")
-    for model, acc in accuracies.items():
+    # Print summary statistics
+    print("\nModel Performance Summary")
+    print("=======================")
+    print("\nRace Winner Prediction Accuracy:")
+    for model, acc in sorted(accuracies.items(), key=lambda x: x[1], reverse=True):
         print(f"{model:15s}: {acc:.2%}")
+    
+    print("\nStandings Prediction Error (MAE):")
+    for model, mae in sorted(standings_mae.items(), key=lambda x: x[1]):
+        print(f"{model:15s}: {mae:.2f}")
 
 def main():
     print("F1 2024 Season Model Comparison")
     print("===============================")
-    
-    # Create output directory
-    if not os.path.exists('model_comparison'):
-        os.makedirs('model_comparison')
-    
-    # Generate accuracy visualization
-    print("\nGenerating model accuracy comparison...")
-    visualize_model_accuracy()
-    
-    print("\nVisualization saved to model_comparison/accuracy_comparison.png")
+    visualize_model_comparisons()
+    print("\nVisualizations saved to model_comparison/model_comparison_2024.png")
 
 if __name__ == "__main__":
     main()

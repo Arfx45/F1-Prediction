@@ -22,7 +22,7 @@ def load_svm_model():
         print(f"Error loading model: {e}")
         raise
 
-def simulate_2024_season():
+def simulate_svm_2024():
     print("\nStarting 2024 F1 Season Simulation with SVM Model")
     print("=" * 50)
     
@@ -95,13 +95,23 @@ def simulate_2024_season():
         # Store race predictions
         race_results = pd.DataFrame({'Driver': current_drivers, 'Win Probability': win_probs}).sort_values('Win Probability', ascending=False)
         
+        # Add actual winner comparison
+        actual_winner = "Not yet raced"
+        if datetime.strptime(race['date'], '%Y-%m-%d').date() < datetime.now().date():
+            race_result = results_2024[results_2024['raceId'] == race['raceId']]
+            if not race_result.empty:
+                winner_id = race_result[race_result['position'] == '1']['driverId'].iloc[0]
+                actual_winner = f"{drivers_df[drivers_df['driverId'] == winner_id]['forename'].iloc[0]} {drivers_df[drivers_df['driverId'] == winner_id]['surname'].iloc[0]}"
+        
         season_predictions.append({
             'raceId': race['raceId'],
             'raceName': race['name'],
             'date': race['date'],
             'predicted_winner': race_results.iloc[0]['Driver'],
             'win_probability': race_results.iloc[0]['Win Probability'],
-            'top_3': race_results.head(3)['Driver'].tolist()
+            'top_3': race_results.head(3)['Driver'].tolist(),
+            'actual_winner': actual_winner,
+            'prediction_correct': (actual_winner != "Not yet raced" and actual_winner == race_results.iloc[0]['Driver'])
         })
 
         # Add actual results comparison
@@ -124,20 +134,21 @@ def simulate_2024_season():
         else:
             print(f"Race not yet completed. Predicted winner: {race_results.iloc[0]['Driver']}")
 
-    # Save predictions and print summary
+    # Create predictions DataFrame
     predictions_df = pd.DataFrame(season_predictions)
-    output_path = 'data/2024/predicted_results2024SVM.csv'
+    
+    # Ensure directory exists
+    os.makedirs('data/predicted_models', exist_ok=True)
+    
+    # Save predictions
+    output_path = 'data/predicted_models/predicted_results2024SVM.csv'
     predictions_df.to_csv(output_path, index=False)
-
-    print("\nSimulation Summary")
-    print("=" * 50)
-    if total_predictions > 0:
-        accuracy = correct_predictions / total_predictions
-        print(f"Accuracy on completed races: {accuracy:.2%}")
-    print(f"Predictions saved to: {output_path}")
+    print(f"\nPredictions saved to: {output_path}")
+    
+    return season_predictions
 
 if __name__ == "__main__":
     try:
-        simulate_2024_season()
+        simulate_svm_2024()
     except Exception as e:
         print(f"Error during simulation: {e}")

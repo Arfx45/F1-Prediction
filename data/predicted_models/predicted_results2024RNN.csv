@@ -1,0 +1,25 @@
+raceId,raceName,date,predicted_winner,win_probability,top_3,actual_winner,prediction_correct
+1121,Bahrain Grand Prix,2024-03-02,Valtteri Bottas,0.0002629709,"['Valtteri Bottas', 'Zhou Guanyu', 'Nico Hulkenberg']",Max Verstappen,False
+1122,Saudi Arabian Grand Prix,2024-03-09,Kevin Magnussen,0.00028161597,"['Kevin Magnussen', 'Nico Hulkenberg', 'Valtteri Bottas']",Max Verstappen,False
+1123,Australian Grand Prix,2024-03-24,Kevin Magnussen,0.00028239377,"['Kevin Magnussen', 'Sergio Perez', 'Nico Hulkenberg']",Carlos Sainz,False
+1124,Japanese Grand Prix,2024-04-07,Sergio Perez,0.0002691469,"['Sergio Perez', 'Zhou Guanyu', 'Nico Hulkenberg']",Max Verstappen,False
+1125,Chinese Grand Prix,2024-04-21,Valtteri Bottas,0.0002824417,"['Valtteri Bottas', 'Kevin Magnussen', 'Nico Hulkenberg']",Max Verstappen,False
+1126,Miami Grand Prix,2024-05-05,Zhou Guanyu,0.00026171378,"['Zhou Guanyu', 'Nico Hulkenberg', 'Kevin Magnussen']",Lando Norris,False
+1127,Emilia Romagna Grand Prix,2024-05-19,Valtteri Bottas,0.0002983655,"['Valtteri Bottas', 'Kevin Magnussen', 'Zhou Guanyu']",Max Verstappen,False
+1128,Monaco Grand Prix,2024-05-26,Kevin Magnussen,0.00026917894,"['Kevin Magnussen', 'Valtteri Bottas', 'Sergio Perez']",Charles Leclerc,False
+1129,Canadian Grand Prix,2024-06-09,Valtteri Bottas,0.00028312733,"['Valtteri Bottas', 'Zhou Guanyu', 'Kevin Magnussen']",Max Verstappen,False
+1130,Spanish Grand Prix,2024-06-23,Valtteri Bottas,0.00029527533,"['Valtteri Bottas', 'Kevin Magnussen', 'Nico Hulkenberg']",Max Verstappen,False
+1131,Austrian Grand Prix,2024-06-30,Sergio Perez,0.00029504346,"['Sergio Perez', 'Nico Hulkenberg', 'Kevin Magnussen']",George Russell,False
+1132,British Grand Prix,2024-07-07,Nico Hulkenberg,0.00027971875,"['Nico Hulkenberg', 'Kevin Magnussen', 'Zhou Guanyu']",Lewis Hamilton,False
+1133,Hungarian Grand Prix,2024-07-21,Valtteri Bottas,0.00032730523,"['Valtteri Bottas', 'Sergio Perez', 'Nico Hulkenberg']",Oscar Piastri,False
+1134,Belgian Grand Prix,2024-07-28,Nico Hulkenberg,0.00026483863,"['Nico Hulkenberg', 'Sergio Perez', 'Valtteri Bottas']",Lewis Hamilton,False
+1135,Dutch Grand Prix,2024-08-25,Kevin Magnussen,0.00026914407,"['Kevin Magnussen', 'Sergio Perez', 'Valtteri Bottas']",Lando Norris,False
+1136,Italian Grand Prix,2024-09-01,Valtteri Bottas,0.00028250876,"['Valtteri Bottas', 'Kevin Magnussen', 'Nico Hulkenberg']",Charles Leclerc,False
+1137,Azerbaijan Grand Prix,2024-09-15,Kevin Magnussen,0.0003044484,"['Kevin Magnussen', 'Valtteri Bottas', 'Sergio Perez']",Oscar Piastri,False
+1138,Singapore Grand Prix,2024-09-22,Valtteri Bottas,0.00029714344,"['Valtteri Bottas', 'Kevin Magnussen', 'Zhou Guanyu']",Lando Norris,False
+1139,United States Grand Prix,2024-10-20,Valtteri Bottas,0.00026911456,"['Valtteri Bottas', 'Zhou Guanyu', 'Sergio Perez']",Charles Leclerc,False
+1140,Mexico City Grand Prix,2024-10-27,Zhou Guanyu,6.580939e-05,"['Zhou Guanyu', 'Valtteri Bottas', 'Yuki Tsunoda']",Carlos Sainz,False
+1141,São Paulo Grand Prix,2024-11-03,Kevin Magnussen,0.00032144855,"['Kevin Magnussen', 'Sergio Perez', 'Max Verstappen']",Max Verstappen,False
+1142,Las Vegas Grand Prix,2024-11-23,Valtteri Bottas,0.0003179326,"['Valtteri Bottas', 'Zhou Guanyu', 'Nico Hulkenberg']",George Russell,False
+1143,Qatar Grand Prix,2024-12-01,Sergio Perez,0.00024176583,"['Sergio Perez', 'Zhou Guanyu', 'Logan Sargeant']",Max Verstappen,False
+1144,Abu Dhabi Grand Prix,2024-12-08,Kevin Magnussen,0.00029117984,"['Kevin Magnussen', 'Nico Hulkenberg', 'Sergio Perez']",Lando Norris,False
