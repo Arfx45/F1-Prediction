@@ -5,6 +5,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
 import joblib
+import os
 
 # Load datasets
 results_df = pd.read_csv('data/results.csv')
@@ -64,6 +65,18 @@ print(f"Logistic Regression Accuracy: {accuracy_score(y_test, y_pred_log):.4f}")
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred_log))
 
-# Save model
+# Save model and scaler
 
-joblib.dump(log_model, 'logistic_model.pkl')
+# Create __pycache__ directory if it doesn't exist
+if not os.path.exists('__pycache__'):
+    os.makedirs('__pycache__')
+
+# Save model and scaler
+model_path = os.path.join('__pycache__', 'logisticF12024.joblib')
+scaler_path = os.path.join('__pycache__', 'logistic_scaler.joblib')
+
+joblib.dump(log_model, model_path)
+joblib.dump(scaler, scaler_path)
+
+print(f"\nModel saved to: {model_path}")
+print(f"Scaler saved to: {scaler_path}")

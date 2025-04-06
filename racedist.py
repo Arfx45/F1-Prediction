@@ -1,8 +1,13 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
 def analyze_race_results(results_df, races_df, drivers_df):
+    # Create analysis directory if it doesn't exist
+    if not os.path.exists('analysis'):
+        os.makedirs('analysis')
+
     # Filter out 2024 data and keep only 2018-2023
     races_df = races_df[(races_df['year'] >= 2018) & (races_df['year'] < 2024)]
     
@@ -22,27 +27,23 @@ def analyze_race_results(results_df, races_df, drivers_df):
     plt.xticks(rotation=45)
     plt.ylabel('Number of Podiums')
     plt.tight_layout()
-    plt.show()
+    plt.savefig('analysis/podium_distribution.png')
+    plt.close()
 
-    # 2. Win Distribution (now properly filtered)
+    # 2. Win Distribution
     plt.figure(figsize=(15, 8))
     wins = merged_df[merged_df['position'] == '1']['Driver Name'].value_counts()
     ax = sns.barplot(x=wins.index, y=wins.values)
     plt.title('Race Wins Distribution by Driver (2018-2023)', pad=20)
-    
-    # Rotate x-axis labels and adjust their position
     plt.xticks(rotation=45, ha='right')
-    
-    # Add value labels on top of each bar
     for i, v in enumerate(wins.values):
         ax.text(i, v, str(v), ha='center', va='bottom')
-    
-    # Adjust layout
     plt.subplots_adjust(bottom=0.2)
     plt.xlabel('Driver Name', labelpad=15)
     plt.ylabel('Number of Wins', labelpad=15)
     plt.tight_layout()
-    plt.show()
+    plt.savefig('analysis/wins_distribution.png')
+    plt.close()
 
     # 3. Position Distribution Heatmap
     plt.figure(figsize=(12, 8))
@@ -50,7 +51,8 @@ def analyze_race_results(results_df, races_df, drivers_df):
     sns.heatmap(position_matrix.head(10), cmap='YlOrRd', annot=True, fmt='d')
     plt.title('Position Distribution Heatmap (Top 10 Drivers)')
     plt.tight_layout()
-    plt.show()
+    plt.savefig('analysis/position_heatmap.png')
+    plt.close()
 
     # 4. Year-wise Performance
     plt.figure(figsize=(12, 6))
@@ -59,7 +61,8 @@ def analyze_race_results(results_df, races_df, drivers_df):
     plt.title('Driver Performance Over Years (Top Winners)')
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
-    plt.show()
+    plt.savefig('analysis/yearly_performance.png')
+    plt.close()
 
     # Return summary statistics
     summary_stats = {

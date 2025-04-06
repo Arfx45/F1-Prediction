@@ -1,25 +1,25 @@
-raceId,raceName,date,predicted_winner,win_probability,top_3
-1121,Bahrain Grand Prix,2024-03-02,Max Verstappen,0.5164693466361634,"['Max Verstappen', 'Logan Sargeant', 'Alexander Albon']"
-1122,Saudi Arabian Grand Prix,2024-03-09,Max Verstappen,0.40453553199496717,"['Max Verstappen', 'Yuki Tsunoda', 'Zhou Guanyu']"
-1123,Australian Grand Prix,2024-03-24,Yuki Tsunoda,0.21683111446973619,"['Yuki Tsunoda', 'Lance Stroll', 'Carlos Sainz']"
-1124,Japanese Grand Prix,2024-04-07,Charles Leclerc,0.3662660859326354,"['Charles Leclerc', 'Alexander Albon', 'Esteban Ocon']"
-1125,Chinese Grand Prix,2024-04-21,Sergio Perez,0.14003317516832647,"['Sergio Perez', 'Oscar Piastri', 'Daniel Ricciardo']"
-1126,Miami Grand Prix,2024-05-05,Daniel Ricciardo,0.20576485013053095,"['Daniel Ricciardo', 'Yuki Tsunoda', 'George Russell']"
-1127,Emilia Romagna Grand Prix,2024-05-19,Esteban Ocon,0.26405067072925686,"['Esteban Ocon', 'Alexander Albon', 'Carlos Sainz']"
-1128,Monaco Grand Prix,2024-05-26,Daniel Ricciardo,0.20576485013053095,"['Daniel Ricciardo', 'Charles Leclerc', 'Max Verstappen']"
-1129,Canadian Grand Prix,2024-06-09,Lando Norris,0.43253528166929595,"['Lando Norris', 'Daniel Ricciardo', 'Pierre Gasly']"
-1130,Spanish Grand Prix,2024-06-23,Lando Norris,0.43253528166929595,"['Lando Norris', 'Max Verstappen', 'Pierre Gasly']"
-1131,Austrian Grand Prix,2024-06-30,Max Verstappen,0.5164693466361634,"['Max Verstappen', 'Lewis Hamilton', 'Valtteri Bottas']"
-1132,British Grand Prix,2024-07-07,Charles Leclerc,0.26878957277370724,"['Charles Leclerc', 'Lance Stroll', 'Sergio Perez']"
-1133,Hungarian Grand Prix,2024-07-21,Carlos Sainz,0.25581285599189996,"['Carlos Sainz', 'Oscar Piastri', 'Yuki Tsunoda']"
-1134,Belgian Grand Prix,2024-07-28,Fernando Alonso,0.318104124839875,"['Fernando Alonso', 'Lewis Hamilton', 'Max Verstappen']"
-1135,Dutch Grand Prix,2024-08-25,Lewis Hamilton,0.32939392447814925,"['Lewis Hamilton', 'Lando Norris', 'Nico Hulkenberg']"
-1136,Italian Grand Prix,2024-09-01,Max Verstappen,0.5164693466361634,"['Max Verstappen', 'Pierre Gasly', 'Charles Leclerc']"
-1137,Azerbaijan Grand Prix,2024-09-15,Lewis Hamilton,0.32939392447814925,"['Lewis Hamilton', 'Yuki Tsunoda', 'Sergio Perez']"
-1138,Singapore Grand Prix,2024-09-22,Lewis Hamilton,0.32939392447814925,"['Lewis Hamilton', 'Carlos Sainz', 'Kevin Magnussen']"
-1139,United States Grand Prix,2024-10-20,Max Verstappen,0.6267746325149792,"['Max Verstappen', 'Esteban Ocon', 'Pierre Gasly']"
-1140,Mexico City Grand Prix,2024-10-27,Pierre Gasly,0.22274720829564612,"['Pierre Gasly', 'Lando Norris', 'Esteban Ocon']"
-1141,São Paulo Grand Prix,2024-11-03,Carlos Sainz,0.25581285599189996,"['Carlos Sainz', 'Oscar Piastri', 'Lewis Hamilton']"
-1142,Las Vegas Grand Prix,2024-11-23,Daniel Ricciardo,0.20576485013053095,"['Daniel Ricciardo', 'Lewis Hamilton', 'Yuki Tsunoda']"
-1143,Qatar Grand Prix,2024-12-01,George Russell,0.3647096280118588,"['George Russell', 'Pierre Gasly', 'Alexander Albon']"
-1144,Abu Dhabi Grand Prix,2024-12-08,Charles Leclerc,0.4760768504834493,"['Charles Leclerc', 'Max Verstappen', 'Pierre Gasly']"
+raceId,raceName,date,predicted_winner,win_probability,top_3,actual_winner,prediction_correct
+1121,Bahrain Grand Prix,2024-03-02,Nico Hulkenberg,0.04657845285637203,"['Nico Hulkenberg', 'Alexander Albon', 'Kevin Magnussen']",Max Verstappen,False
+1122,Saudi Arabian Grand Prix,2024-03-09,Max Verstappen,0.07454986404255984,"['Max Verstappen', 'Logan Sargeant', 'Oscar Piastri']",Max Verstappen,True
+1123,Australian Grand Prix,2024-03-24,Yuki Tsunoda,0.07602208330994295,"['Yuki Tsunoda', 'Daniel Ricciardo', 'Lance Stroll']",Carlos Sainz,False
+1124,Japanese Grand Prix,2024-04-07,Esteban Ocon,0.09613694074436094,"['Esteban Ocon', 'Alexander Albon', 'Carlos Sainz']",Max Verstappen,False
+1125,Chinese Grand Prix,2024-04-21,Max Verstappen,0.23574276621958823,"['Max Verstappen', 'Fernando Alonso', 'Lando Norris']",Max Verstappen,True
+1126,Miami Grand Prix,2024-05-05,Oscar Piastri,0.07369829330427802,"['Oscar Piastri', 'Valtteri Bottas', 'Esteban Ocon']",Lando Norris,False
+1127,Emilia Romagna Grand Prix,2024-05-19,Max Verstappen,0.23612202360551718,"['Max Verstappen', 'Alexander Albon', 'Carlos Sainz']",Max Verstappen,True
+1128,Monaco Grand Prix,2024-05-26,Pierre Gasly,0.07842131876813475,"['Pierre Gasly', 'Fernando Alonso', 'Alexander Albon']",Charles Leclerc,False
+1129,Canadian Grand Prix,2024-06-09,Max Verstappen,0.16473567762015937,"['Max Verstappen', 'Carlos Sainz', 'Yuki Tsunoda']",Max Verstappen,True
+1130,Spanish Grand Prix,2024-06-23,Lando Norris,0.0837435271044857,"['Lando Norris', 'Daniel Ricciardo', 'Pierre Gasly']",Max Verstappen,False
+1131,Austrian Grand Prix,2024-06-30,Charles Leclerc,0.14997062610241368,"['Charles Leclerc', 'Daniel Ricciardo', 'George Russell']",George Russell,False
+1132,British Grand Prix,2024-07-07,Oscar Piastri,0.11170994843937844,"['Oscar Piastri', 'Charles Leclerc', 'Fernando Alonso']",Lewis Hamilton,False
+1133,Hungarian Grand Prix,2024-07-21,Fernando Alonso,0.12251837375030927,"['Fernando Alonso', 'Yuki Tsunoda', 'Valtteri Bottas']",Oscar Piastri,False
+1134,Belgian Grand Prix,2024-07-28,Max Verstappen,0.24046569568110068,"['Max Verstappen', 'Lando Norris', 'Charles Leclerc']",Lewis Hamilton,False
+1135,Dutch Grand Prix,2024-08-25,Lewis Hamilton,0.08448594873200693,"['Lewis Hamilton', 'Max Verstappen', 'Nico Hulkenberg']",Lando Norris,False
+1136,Italian Grand Prix,2024-09-01,Fernando Alonso,0.08141538256808264,"['Fernando Alonso', 'Logan Sargeant', 'Esteban Ocon']",Charles Leclerc,False
+1137,Azerbaijan Grand Prix,2024-09-15,George Russell,0.09703025167822163,"['George Russell', 'Logan Sargeant', 'Charles Leclerc']",Oscar Piastri,False
+1138,Singapore Grand Prix,2024-09-22,Lewis Hamilton,0.12627067997030994,"['Lewis Hamilton', 'Max Verstappen', 'Lando Norris']",Lando Norris,False
+1139,United States Grand Prix,2024-10-20,Lando Norris,0.12549962905870896,"['Lando Norris', 'Daniel Ricciardo', 'Esteban Ocon']",Charles Leclerc,False
+1140,Mexico City Grand Prix,2024-10-27,Oscar Piastri,0.08433871165825135,"['Oscar Piastri', 'Daniel Ricciardo', 'Esteban Ocon']",Carlos Sainz,False
+1141,São Paulo Grand Prix,2024-11-03,Max Verstappen,0.17183885407816366,"['Max Verstappen', 'Esteban Ocon', 'Lance Stroll']",Max Verstappen,True
+1142,Las Vegas Grand Prix,2024-11-23,Max Verstappen,0.07744423281574404,"['Max Verstappen', 'Alexander Albon', 'Esteban Ocon']",George Russell,False
+1143,Qatar Grand Prix,2024-12-01,Charles Leclerc,0.20901895413615051,"['Charles Leclerc', 'Lance Stroll', 'Esteban Ocon']",Max Verstappen,False
+1144,Abu Dhabi Grand Prix,2024-12-08,Daniel Ricciardo,0.07153649473304897,"['Daniel Ricciardo', 'Lando Norris', 'Oscar Piastri']",Lando Norris,False

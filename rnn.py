@@ -4,7 +4,7 @@ import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_splitF
+from sklearn.model_selection import train_test_split  # Fixed typo here
 import os
 import joblib
 

@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
 import joblib
+import os
 
 # Load datasets
 results_df = pd.read_csv('data/results.csv')
@@ -81,8 +82,22 @@ print(f"Model Accuracy: {accuracy_score(y_test, y_pred_log):.4f}")
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred_log))
 
-# Save the model
-joblib.dump(log_model, 'logistic_model_with_RFE.pkl')
+# Create __pycache__ directory if it doesn't exist
+if not os.path.exists('__pycache__'):
+    os.makedirs('__pycache__')
+
+# Save model, scaler and feature selector
+model_path = os.path.join('__pycache__', 'logisticFS_F12024.joblib')
+scaler_path = os.path.join('__pycache__', 'logisticFS_scaler.joblib')
+selector_path = os.path.join('__pycache__', 'logisticFS_selector.joblib')
+
+joblib.dump(log_model, model_path)
+joblib.dump(scaler, scaler_path)
+joblib.dump(rfe_selector, selector_path)
+
+print(f"\nModel saved to: {model_path}")
+print(f"Scaler saved to: {scaler_path}")
+print(f"Feature selector saved to: {selector_path}")
 
 # Feature importance for selected features
 feature_importance = pd.DataFrame({
