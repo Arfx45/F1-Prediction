@@ -81,8 +81,8 @@ Model predictions are saved in:
 
 ## Contributors
 
-- Ryan Shafi (501167088)
-- Arnab Nath (501165959)
+- Ryan Shafi 
+- Arnab Nath
 
 ## License
 
